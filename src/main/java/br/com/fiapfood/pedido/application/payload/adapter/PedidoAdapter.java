@@ -12,8 +12,8 @@ import br.com.fiapfood.pedido.domain.entities.Pedido;
 import br.com.fiapfood.pedido.domain.repository.ClienteRepository;
 import br.com.fiapfood.pedido.domain.repository.ComboRepository;
 import br.com.fiapfood.pedido.domain.repository.ItemRepository;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class PedidoAdapter {
@@ -34,88 +34,78 @@ public class PedidoAdapter {
     public Pedido adapt(PedidoRequest pedidoRequest) {
         if (pedidoRequest == null) {
             throw new ApplicationException("Não é possível converter um PedidoRequest nulo");
-        } else {
-            Pedido pedido = new Pedido();
-            List<ItemDTO> itensDTO = pedidoRequest.getItens();
-            List<ComboDTO> combosDTO = pedidoRequest.getCombos();
-            ArrayList<Item> setPedidoItens = new ArrayList();
-            ArrayList<Combo> setPedidoCombos = new ArrayList();
-            this.adaptCliente(pedido, pedidoRequest.getClienteId());
-            this.adaptItens(pedido, setPedidoItens, itensDTO);
-            this.adaptCombos(pedido, setPedidoCombos, combosDTO);
-            EdicaoPedidoRequest edicaoPedidoRequest = null;
-            if (pedidoRequest instanceof EdicaoPedidoRequest) {
-                edicaoPedidoRequest = (EdicaoPedidoRequest)pedidoRequest;
-            }
-
-            pedido.setId(edicaoPedidoRequest != null ? edicaoPedidoRequest.getId() : null);
-            return pedido;
         }
+
+        Pedido pedido = new Pedido();
+
+        List<ItemDTO> itensDTO = pedidoRequest.getItens();
+        List<ComboDTO> combosDTO = pedidoRequest.getCombos();
+        ArrayList<Item> setPedidoItens = new ArrayList<>();
+        ArrayList<Combo> setPedidoCombos = new ArrayList<>();
+
+        adaptCliente(pedido,pedidoRequest.getClienteId());
+        adaptItens(pedido, setPedidoItens, itensDTO);
+        adaptCombos(pedido, setPedidoCombos, combosDTO);
+
+        EdicaoPedidoRequest edicaoPedidoRequest = null;
+        if (pedidoRequest instanceof EdicaoPedidoRequest) {
+            edicaoPedidoRequest = (EdicaoPedidoRequest) pedidoRequest;
+        }
+
+        pedido.setId(edicaoPedidoRequest != null ? edicaoPedidoRequest.getId() : null);
+        return pedido;
     }
 
     private void adaptCliente(Pedido pedido, Long clienteId) {
-        if (clienteId != null) {
-            Cliente cliente = this.clienteRepository.buscarClientePorId(clienteId);
-            if (cliente == null) {
+        if(clienteId != null) {
+            Cliente cliente = clienteRepository.buscarClientePorId(clienteId);
+            if(cliente == null) {
                 throw new ApplicationException("Não foi possível encontrar o cliente informado na base de dados. cliente: " + clienteId);
             }
-
             pedido.setCliente(cliente);
         }
-
     }
 
     public List<Pedido> adapt(List<PedidoRequest> pedidosRequest) {
-        if (pedidosRequest != null && !pedidosRequest.isEmpty()) {
-            List<Pedido> pedidos = new ArrayList();
-            Iterator var3 = pedidosRequest.iterator();
-
-            while(var3.hasNext()) {
-                PedidoRequest request = (PedidoRequest)var3.next();
-                pedidos.add(this.adapt(request));
-            }
-
-            return pedidos;
-        } else {
+        if (pedidosRequest == null || pedidosRequest.isEmpty()) {
             throw new ApplicationException("Não é possível converter uma lista vazia ou nula de PedidoRequests");
         }
+
+        List<Pedido> pedidos = new ArrayList<>();
+
+        for (PedidoRequest request : pedidosRequest) {
+            pedidos.add(adapt(request));
+        }
+        return pedidos;
     }
 
     private void adaptCombos(Pedido pedido, ArrayList<Combo> combos, List<ComboDTO> combosDTO) {
-        if (combosDTO != null && !combosDTO.isEmpty()) {
-            Iterator var4 = combosDTO.iterator();
-
-            while(var4.hasNext()) {
-                ComboDTO comboDTO = (ComboDTO)var4.next();
-                Combo combo = this.comboRepository.buscarComboPorId(comboDTO.getId());
-                if (combo == null) {
-                    throw new ApplicationException("Um dos combos informados não foi encontrado na base de dados, Id: " + comboDTO.getId());
-                }
-
-                combo.setQuantidade(comboDTO.getQuantidade());
-                combos.add(combo);
-            }
-
-            pedido.setCombos(combos);
+        if (combosDTO == null || combosDTO.isEmpty()) {
+            return;
         }
+        for (ComboDTO comboDTO : combosDTO) {
+            Combo combo = comboRepository.buscarComboPorId(comboDTO.getId());
+            if(combo == null) {
+                throw new ApplicationException("Um dos combos informados não foi encontrado na base de dados, Id: " + comboDTO.getId());
+            }
+            combo.setQuantidade(comboDTO.getQuantidade());
+            combos.add(combo);
+        }
+        pedido.setCombos(combos);
     }
 
     private void adaptItens(Pedido pedido, ArrayList<Item> itens, List<ItemDTO> itensDTO) {
-        if (itensDTO != null && !itensDTO.isEmpty()) {
-            Iterator var4 = itensDTO.iterator();
-
-            while(var4.hasNext()) {
-                ItemDTO itemDTO = (ItemDTO)var4.next();
-                Item item = this.itemRepository.buscarItemPorId(itemDTO.getId());
-                if (item == null) {
-                    throw new ApplicationException("Um dos itens informados não foi encontrado na base de dados, Id: " + itemDTO.getId());
-                }
-
-                item.setQuantidade(itemDTO.getQuantidade());
-                itens.add(item);
-            }
-
-            pedido.setItens(itens);
+        if (itensDTO == null || itensDTO.isEmpty()) {
+            return;
         }
+        for (ItemDTO itemDTO : itensDTO) {
+            Item  item = itemRepository.buscarItemPorId(itemDTO.getId());
+            if(item == null) {
+                throw new ApplicationException("Um dos itens informados não foi encontrado na base de dados, Id: " + itemDTO.getId());
+            }
+            item.setQuantidade(itemDTO.getQuantidade());
+            itens.add(item);
+        }
+        pedido.setItens(itens);
     }
 }

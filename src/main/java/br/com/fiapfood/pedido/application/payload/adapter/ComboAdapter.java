@@ -6,8 +6,8 @@ import br.com.fiapfood.pedido.domain.entities.Combo;
 import br.com.fiapfood.pedido.domain.entities.Item;
 import br.com.fiapfood.pedido.domain.enuns.StatusItem;
 import br.com.fiapfood.pedido.domain.repository.ItemRepository;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ComboAdapter {
@@ -24,29 +24,31 @@ public class ComboAdapter {
     public Combo adapt(ComboRequest comboRequest) {
         if (comboRequest == null) {
             return null;
-        } else {
-            ArrayList<Item> itens = new ArrayList();
-            Iterator var3 = comboRequest.getItens().iterator();
-
-            while(var3.hasNext()) {
-                ItemComboDTO itemDTO = (ItemComboDTO)var3.next();
-                Item item = this.itemRepository.buscarItemPorId(itemDTO.getId());
-                itens.add(item);
-            }
-
-            return Combo.builder().nome(comboRequest.getNome()).preco(comboRequest.getPreco()).status(StatusItem.valueOf(comboRequest.getStatus().name())).itens(itens).build();
         }
+
+        ArrayList<Item> itens = new ArrayList<>();
+
+        for (ItemComboDTO itemDTO : comboRequest.getItens()) {
+            Item item = itemRepository.buscarItemPorId(itemDTO.getId());
+            itens.add(item);
+        }
+
+        return Combo.builder()
+                .nome(comboRequest.getNome())
+                .preco(comboRequest.getPreco())
+                .status(StatusItem.valueOf(comboRequest.getStatus().name()))
+                .itens(itens)
+                .build();
     }
 
     public List<Combo> convert(List<ComboRequest> combosRequest) {
-        if (combosRequest != null && !combosRequest.isEmpty()) {
-            List<Combo> combos = new ArrayList();
-            combosRequest.forEach((dto) -> {
-                combos.add(this.adapt(dto));
-            });
-            return combos;
-        } else {
+        if (combosRequest == null || combosRequest.isEmpty()) {
             return null;
         }
+        List<Combo> combos = new ArrayList<>();
+        combosRequest.forEach(dto -> {
+            combos.add(adapt(dto));
+        });
+        return combos;
     }
 }
