@@ -1,21 +1,19 @@
 package br.com.fiapfood.pedido.application.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import lombok.Getter;
 
-@JsonInclude(Include.NON_NULL)
+@Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EdicaoCategoriaRequest extends CategoriaRequest {
-    private Integer id;
 
     EdicaoCategoriaRequest(String nome, String descricao) {
         super(nome, descricao);
     }
 
+    private Integer id;
+
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getId() {
-        return this.id;
     }
 }

@@ -1,13 +1,26 @@
 package br.com.fiapfood.pedido.domain.entities;
 
 import br.com.fiapfood.pedido.domain.exceptions.DominioException;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.Objects;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cliente {
+
     private Long id;
+
     private String nome;
+
     private Cpf cpf;
+
     private List<Pedido> pedidos;
 
     public void setNome(String nome) {
@@ -15,8 +28,8 @@ public class Cliente {
     }
 
     public void validarDadosDeNegocioCliente() {
-        this.validarDadosObrigatorios();
-        this.validarCpf();
+        validarDadosObrigatorios();
+        validarCpf();
     }
 
     private void validarCpf() {
@@ -26,112 +39,25 @@ public class Cliente {
     }
 
     private void validarDadosObrigatorios() {
-        if (this.nome != null && !this.nome.isEmpty()) {
-            if (this.cpf == null) {
-                throw new DominioException("CPF está nulo");
-            }
-        } else {
+        if (this.nome == null || this.nome.isEmpty()) {
             throw new DominioException("Nome do cliente está nulo ou vazio");
         }
+
+        if (this.cpf == null) {
+            throw new DominioException("CPF está nulo");
+        }
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        } else if (o != null && this.getClass() == o.getClass()) {
-            Cliente cliente = (Cliente)o;
-            return Objects.equals(this.id, cliente.id) && Objects.equals(this.nome, cliente.nome) && Objects.equals(this.cpf, cliente.cpf) && Objects.equals(this.pedidos, cliente.pedidos);
-        } else {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(id, cliente.id) && Objects.equals(nome, cliente.nome) && Objects.equals(cpf, cliente.cpf) && Objects.equals(pedidos, cliente.pedidos);
     }
 
+    @Override
     public int hashCode() {
-        return Objects.hash(new Object[]{this.id, this.nome, this.cpf, this.pedidos});
-    }
-
-    public static ClienteBuilder builder() {
-        return new ClienteBuilder();
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public String getNome() {
-        return this.nome;
-    }
-
-    public Cpf getCpf() {
-        return this.cpf;
-    }
-
-    public List<Pedido> getPedidos() {
-        return this.pedidos;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public void setCpf(final Cpf cpf) {
-        this.cpf = cpf;
-    }
-
-    public void setPedidos(final List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
-
-    public String toString() {
-        Long var10000 = this.getId();
-        return "Cliente(id=" + var10000 + ", nome=" + this.getNome() + ", cpf=" + this.getCpf() + ", pedidos=" + this.getPedidos() + ")";
-    }
-
-    public Cliente() {
-    }
-
-    public Cliente(final Long id, final String nome, final Cpf cpf, final List<Pedido> pedidos) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.pedidos = pedidos;
-    }
-
-    public static class ClienteBuilder {
-        private Long id;
-        private String nome;
-        private Cpf cpf;
-        private List<Pedido> pedidos;
-
-        ClienteBuilder() {
-        }
-
-        public ClienteBuilder id(final Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public ClienteBuilder nome(final String nome) {
-            this.nome = nome;
-            return this;
-        }
-
-        public ClienteBuilder cpf(final Cpf cpf) {
-            this.cpf = cpf;
-            return this;
-        }
-
-        public ClienteBuilder pedidos(final List<Pedido> pedidos) {
-            this.pedidos = pedidos;
-            return this;
-        }
-
-        public Cliente build() {
-            return new Cliente(this.id, this.nome, this.cpf, this.pedidos);
-        }
-
-        public String toString() {
-            return "Cliente.ClienteBuilder(id=" + this.id + ", nome=" + this.nome + ", cpf=" + this.cpf + ", pedidos=" + this.pedidos + ")";
-        }
+        return Objects.hash(id, nome, cpf, pedidos);
     }
 }

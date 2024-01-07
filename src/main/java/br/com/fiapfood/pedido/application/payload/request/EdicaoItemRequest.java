@@ -2,18 +2,19 @@ package br.com.fiapfood.pedido.application.payload.request;
 
 import br.com.fiapfood.pedido.application.payload.dto.StatusDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EdicaoItemRequest extends ItemRequest {
-    private Long id;
 
     EdicaoItemRequest(Integer categoriaId, String nome, Float preco, Integer quantidadeEstoque, StatusDTO status) {
         super(categoriaId, nome, preco, quantidadeEstoque, status);
+        // TODO Auto-generated constructor stub
     }
 
+    private Long id;
+
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
