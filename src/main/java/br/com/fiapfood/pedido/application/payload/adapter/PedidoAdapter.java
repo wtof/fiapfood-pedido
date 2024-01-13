@@ -9,6 +9,7 @@ import br.com.fiapfood.pedido.domain.entities.Cliente;
 import br.com.fiapfood.pedido.domain.entities.Combo;
 import br.com.fiapfood.pedido.domain.entities.Item;
 import br.com.fiapfood.pedido.domain.entities.Pedido;
+import br.com.fiapfood.pedido.domain.enuns.StatusPedido;
 import br.com.fiapfood.pedido.domain.repository.ClienteRepository;
 import br.com.fiapfood.pedido.domain.repository.ComboRepository;
 import br.com.fiapfood.pedido.domain.repository.ItemRepository;
@@ -50,9 +51,10 @@ public class PedidoAdapter {
         EdicaoPedidoRequest edicaoPedidoRequest = null;
         if (pedidoRequest instanceof EdicaoPedidoRequest) {
             edicaoPedidoRequest = (EdicaoPedidoRequest) pedidoRequest;
+            pedido.setId(edicaoPedidoRequest.getId());
+            pedido.setStatus(StatusPedido.valueOf(edicaoPedidoRequest.getStatus().name()));
         }
 
-        pedido.setId(edicaoPedidoRequest != null ? edicaoPedidoRequest.getId() : null);
         return pedido;
     }
 

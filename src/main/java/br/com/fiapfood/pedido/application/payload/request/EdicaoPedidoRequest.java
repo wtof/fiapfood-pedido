@@ -3,6 +3,7 @@ package br.com.fiapfood.pedido.application.payload.request;
 
 import br.com.fiapfood.pedido.application.payload.dto.ComboDTO;
 import br.com.fiapfood.pedido.application.payload.dto.ItemDTO;
+import br.com.fiapfood.pedido.application.payload.dto.StatusPedidoDTO;
 import lombok.Getter;
 
 import java.util.List;
@@ -15,6 +16,12 @@ public class EdicaoPedidoRequest extends PedidoRequest {
     }
 
     private Long id;
+
+    private StatusPedidoDTO status;
+
+    public void setStatus(StatusPedidoDTO status) {
+        this.status = status;
+    }
 
     public void setId(Long id) {
         this.id = id;
