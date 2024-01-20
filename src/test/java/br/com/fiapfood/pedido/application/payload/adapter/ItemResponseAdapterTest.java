@@ -36,7 +36,7 @@ class ItemResponseAdapterTest {
         ItemResponse response = adapter.adapt(item);
 
         assertEquals(1L, response.getId());
-        assertEquals("Test", response.getNome());
+        assertEquals("TEST", response.getNome());
         assertEquals(10.0f, response.getPreco());
         assertEquals(5, response.getQuantidadeEstoque());
         assertEquals(StatusDTO.DISPONIVEL, response.getStatus());
@@ -57,12 +57,12 @@ class ItemResponseAdapterTest {
 
         assertEquals(2, responses.size());
         assertEquals(1L, responses.get(0).getId());
-        assertEquals("Test", responses.get(0).getNome());
+        assertEquals("TEST", responses.get(0).getNome());
         assertEquals(10.0f, responses.get(0).getPreco());
         assertEquals(5, responses.get(0).getQuantidadeEstoque());
         assertEquals(StatusDTO.DISPONIVEL, responses.get(0).getStatus());
         assertEquals(1L, responses.get(1).getId());
-        assertEquals("Test", responses.get(1).getNome());
+        assertEquals("TEST", responses.get(1).getNome());
         assertEquals(10.0f, responses.get(1).getPreco());
         assertEquals(5, responses.get(1).getQuantidadeEstoque());
         assertEquals(StatusDTO.DISPONIVEL, responses.get(1).getStatus());
