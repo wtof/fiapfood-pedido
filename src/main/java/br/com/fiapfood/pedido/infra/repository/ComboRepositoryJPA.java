@@ -14,9 +14,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ComboRepositoryJPA implements ComboRepository {
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public ComboRepositoryJPA() {
+
+    public ComboRepositoryJPA(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Transactional

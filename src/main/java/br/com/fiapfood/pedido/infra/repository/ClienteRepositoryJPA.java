@@ -15,9 +15,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ClienteRepositoryJPA implements ClienteRepository {
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public ClienteRepositoryJPA() {
+    public ClienteRepositoryJPA(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Transactional

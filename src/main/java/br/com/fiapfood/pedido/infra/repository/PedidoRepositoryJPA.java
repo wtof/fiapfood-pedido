@@ -19,7 +19,11 @@ import java.util.List;
 @Repository
 public class PedidoRepositoryJPA implements PedidoRepository {
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
+
+    public PedidoRepositoryJPA(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Transactional
     public Pedido salvarPedido(Pedido pedido) {

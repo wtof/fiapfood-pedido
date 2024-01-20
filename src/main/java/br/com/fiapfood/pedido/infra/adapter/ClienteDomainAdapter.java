@@ -4,6 +4,7 @@ import br.com.fiapfood.pedido.domain.entities.Cliente;
 import br.com.fiapfood.pedido.domain.entities.Cpf;
 import br.com.fiapfood.pedido.infra.entities.ClienteEntity;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ClienteDomainAdapter {
@@ -20,13 +21,13 @@ public class ClienteDomainAdapter {
 
     public List<Cliente> adapt(List<ClienteEntity> clienteEntity) {
         if (clienteEntity != null && !clienteEntity.isEmpty()) {
-            List<Cliente> clientes = new ArrayList();
-            clienteEntity.forEach((dto) -> {
-                clientes.add(this.adapt(dto));
-            });
+            List<Cliente> clientes = new ArrayList<>();
+            clienteEntity.forEach(dto ->
+                clientes.add(this.adapt(dto))
+            );
             return clientes;
         } else {
-            return null;
+            return Collections.emptyList();
         }
     }
 }

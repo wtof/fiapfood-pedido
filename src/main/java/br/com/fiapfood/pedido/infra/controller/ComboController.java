@@ -3,7 +3,6 @@ package br.com.fiapfood.pedido.infra.controller;
 import br.com.fiapfood.pedido.application.interfaces.ComboService;
 import br.com.fiapfood.pedido.application.payload.request.ComboRequest;
 import br.com.fiapfood.pedido.application.payload.response.ComboResponse;
-import br.com.fiapfood.pedido.application.services.ComboServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ComboController {
     private final ComboService comboService;
 
-    public ComboController(ComboServiceImpl comboService) {
+    public ComboController(ComboService comboService) {
         this.comboService = comboService;
     }
 

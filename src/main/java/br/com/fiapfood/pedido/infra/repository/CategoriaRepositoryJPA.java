@@ -17,9 +17,10 @@ import java.util.List;
 @Repository
 public class CategoriaRepositoryJPA implements CategoriaRepository {
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public CategoriaRepositoryJPA() {
+    public CategoriaRepositoryJPA(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     public Categoria buscarCategoriaPorId(Integer idCategoria) {

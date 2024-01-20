@@ -5,7 +5,6 @@ import br.com.fiapfood.pedido.application.payload.dto.StatusPedidoDTO;
 import br.com.fiapfood.pedido.application.payload.request.EdicaoPedidoRequest;
 import br.com.fiapfood.pedido.application.payload.request.PedidoRequest;
 import br.com.fiapfood.pedido.application.payload.response.PedidoResponse;
-import br.com.fiapfood.pedido.application.services.PedidoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,7 @@ import java.util.List;
 public class PedidoController {
     private final PedidoService pedidoService;
 
-    public PedidoController(PedidoServiceImpl pedidoService) {
+    public PedidoController(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
     }
 
