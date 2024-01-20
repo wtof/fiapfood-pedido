@@ -13,6 +13,8 @@ public interface PedidoService {
 
     PedidoResponse atualizarPedido(EdicaoPedidoRequest edicaoPedidoRequest);
 
+    PedidoResponse atualizarStatusPedido(EdicaoPedidoRequest edicaoPedidoRequest);
+
     PedidoResponse iniciarPedido();
 
     List<PedidoResponse> buscarPedidosAtivos();

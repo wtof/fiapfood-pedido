@@ -16,4 +16,6 @@ public interface PedidoUseCase {
     Pedido iniciarPedido();
 
     List<Pedido> buscarPedidosAtivos();
+
+    Pedido atualizarStatusPedido(Long idPedido, StatusPedido statusPedido);
 }

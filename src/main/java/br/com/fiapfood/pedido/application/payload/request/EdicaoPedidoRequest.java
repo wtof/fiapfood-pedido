@@ -4,11 +4,15 @@ package br.com.fiapfood.pedido.application.payload.request;
 import br.com.fiapfood.pedido.application.payload.dto.ComboDTO;
 import br.com.fiapfood.pedido.application.payload.dto.ItemDTO;
 import br.com.fiapfood.pedido.application.payload.dto.StatusPedidoDTO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EdicaoPedidoRequest extends PedidoRequest {
 
     public EdicaoPedidoRequest(Long clienteId, List<ItemDTO> itens, List<ComboDTO> combos) {

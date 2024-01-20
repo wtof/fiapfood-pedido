@@ -13,15 +13,13 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
 public class PedidoRepositoryJPA implements PedidoRepository {
     @PersistenceContext
     private EntityManager entityManager;
-
-    public PedidoRepositoryJPA() {
-    }
 
     @Transactional
     public Pedido salvarPedido(Pedido pedido) {
@@ -32,13 +30,13 @@ public class PedidoRepositoryJPA implements PedidoRepository {
 
     @Transactional
     public Pedido atualizarPedido(Pedido pedido) {
-        PedidoEntity pedidoEntity = (PedidoEntity)this.entityManager.merge(PedidoEntityAdapter.build().adapt(pedido));
+        PedidoEntity pedidoEntity = this.entityManager.merge(PedidoEntityAdapter.build().adapt(pedido));
         return PedidoDomainAdapter.build().adapt(pedidoEntity);
     }
 
     public Pedido buscarPedidoPorId(Long id) {
         try {
-            return PedidoDomainAdapter.build().adapt((PedidoEntity)this.entityManager.find(PedidoEntity.class, id));
+            return PedidoDomainAdapter.build().adapt(this.entityManager.find(PedidoEntity.class, id));
         } catch (NoResultException var3) {
             return null;
         }
@@ -50,8 +48,8 @@ public class PedidoRepositoryJPA implements PedidoRepository {
             TypedQuery<PedidoEntity> query = this.entityManager.createQuery(jpql, PedidoEntity.class);
             query.setParameter("status", status);
             return PedidoDomainAdapter.build().adapt(query.getResultList());
-        } catch (NoResultException var4) {
-            return null;
+        } catch (NoResultException exception) {
+            return Collections.emptyList();
         }
     }
 
