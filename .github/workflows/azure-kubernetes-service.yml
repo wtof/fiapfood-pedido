@@ -13,35 +13,36 @@ env:
   SERVICES_MANIFEST_PATH: "kubernetes/azure/services"
   DEPLOYMENT_MANIFEST_PATH: "kubernetes/azure/deployments"
   IMAGE_TAG: $(date +"%d%m%Y")
-
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-        SONAR_HOST_URL: "https://sonarcloud.io"
+      - uses: actions/checkout@v3
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+          SONAR_HOST_URL: "https://sonarcloud.io"
 
   build:
     needs: sonarqube
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: | 
-        docker build . --file Dockerfile --tag  wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
-        docker build . --file Dockerfile --tag  wtof/fiapfood-pedido:latest
-
-    - name: Log in to Docker Hub
-      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Push Docker image to Docker Hub
-      run: |
-        docker push wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
-        docker push wtof/fiapfood-pedido:latest
+      - uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: Build the Docker image
+        run: |
+          docker build . --file Dockerfile --tag wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
+          docker build . --file Dockerfile --tag wtof/fiapfood-pedido:latest
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
+          docker push wtof/fiapfood-pedido:latest
 
   deploy:
     permissions:
