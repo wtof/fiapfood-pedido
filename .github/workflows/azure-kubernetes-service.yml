@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches: [ "master" ]
- 
+
 env:
   RESOURCE_GROUP: "FIAP_K8S_Terraform"
   CLUSTER_NAME: "fiapterrafromcluster"
@@ -12,19 +12,22 @@ env:
   CONFIG_MAPS_MANIFEST_PATH: "kubernetes/azure/config-maps"
   SERVICES_MANIFEST_PATH: "kubernetes/azure/services"
   DEPLOYMENT_MANIFEST_PATH: "kubernetes/azure/deployments"
-  IMAGE_TAG: $(date +"%d%m%Y")
+  IMAGE_TAG: ${{ format('{0:ddMMyyyy}', github.event.pushed_at) }}
+
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Build with Maven
+        run: mvn clean install
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
           SONAR_HOST_URL: "https://sonarcloud.io"
         with:
-          args: -Dsonar.projectKey=wtof_fiapfood-pedido -Dsonar.organization=wtof
+          args: -Dsonar.projectKey=wtof_fiapfood-pedido -Dsonar.organization=wtof -Dsonar.java.binaries=target/classes
 
   build:
     needs: sonarqube
@@ -78,4 +81,4 @@ jobs:
            ${{ env.SERVICES_MANIFEST_PATH }}
            ${{ env.DEPLOYMENT_MANIFEST_PATH }}
            ${{ env.HPM_MANISFEST_PATH }}
-          images: "docker.io/wtof/fiapfood-pedido:latest"
+          images: "docker.io/wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}"
