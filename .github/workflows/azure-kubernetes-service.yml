@@ -46,6 +46,10 @@ jobs:
     steps:
       - name: Set IMAGE_TAG
         run: echo "IMAGE_TAG=$(date +'%d%m%Y')" >> $GITHUB_ENV
+      - name: Check current directory
+        run: pwd
+      - name: List files in current directory
+        run: ls -la
       - name: Build the Docker image
         run: |
           docker build . --file Dockerfile --tag wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
