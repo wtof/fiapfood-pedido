@@ -23,16 +23,13 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
           SONAR_HOST_URL: "https://sonarcloud.io"
+        with:
+          args: -Dsonar.projectKey=wtof_fiapfood-pedido -Dsonar.organization=wtof
 
   build:
     needs: sonarqube
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
       - name: Build the Docker image
         run: |
           docker build . --file Dockerfile --tag wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
