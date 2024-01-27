@@ -20,7 +20,7 @@ RUN mvn clean install -T 1C
 # Usa uma imagem mas leve do  amazoncorretto
 FROM amazoncorretto:17
 
-# Configurao diretorio de trabalho
+# Configurao do diretorio de trabalho
 WORKDIR /app
 
 # Copias os artefatos do projeto 
