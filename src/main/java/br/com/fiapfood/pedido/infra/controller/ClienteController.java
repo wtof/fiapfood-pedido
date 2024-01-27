@@ -3,7 +3,6 @@ package br.com.fiapfood.pedido.infra.controller;
 import br.com.fiapfood.pedido.application.interfaces.ClienteService;
 import br.com.fiapfood.pedido.application.payload.request.ClienteRequest;
 import br.com.fiapfood.pedido.application.payload.response.ClienteResponse;
-import br.com.fiapfood.pedido.application.services.ClienteServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ClienteController {
     private final ClienteService clienteService;
 
-    public ClienteController(ClienteServiceImpl clienteService) {
+    public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 

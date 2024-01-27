@@ -17,9 +17,10 @@ import java.util.List;
 @Repository
 public class ItemRepositoryJPA implements ItemRepository {
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public ItemRepositoryJPA() {
+    public ItemRepositoryJPA(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Transactional

@@ -13,7 +13,6 @@ import br.com.fiapfood.pedido.domain.interfaces.PedidoUseCase;
 import br.com.fiapfood.pedido.domain.repository.ClienteRepository;
 import br.com.fiapfood.pedido.domain.repository.ComboRepository;
 import br.com.fiapfood.pedido.domain.repository.ItemRepository;
-import br.com.fiapfood.pedido.domain.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class PedidoServiceImpl implements PedidoService {
     private final ClienteRepository clienteRepository;
     private final PedidoUseCase pedidoUseCase;
 
-    public PedidoServiceImpl(PedidoRepository pedidoRepository, ItemRepository itemRepository, ClienteRepository clienteRepository, ComboRepository comboRepository, PedidoUseCase pedidoUseCase) {
+    public PedidoServiceImpl(ItemRepository itemRepository, ClienteRepository clienteRepository, ComboRepository comboRepository, PedidoUseCase pedidoUseCase) {
         this.itemRepository = itemRepository;
         this.comboRepository = comboRepository;
         this.clienteRepository = clienteRepository;
@@ -50,12 +49,21 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = PedidoAdapter.build(this.itemRepository, this.comboRepository, this.clienteRepository).adapt(edicaoPedidoRequest);
         return PedidoResponseAdapter.build().convert(this.pedidoUseCase.atualizarPedido(pedido));
     }
-
     public PedidoResponse iniciarPedido() {
         return PedidoResponseAdapter.build().convert(this.pedidoUseCase.iniciarPedido());
     }
 
     public List<PedidoResponse> buscarPedidosAtivos() {
         return PedidoResponseAdapter.build().convert(this.pedidoUseCase.buscarPedidosAtivos());
+    }
+
+    @Override
+    public PedidoResponse atualizarStatusPedido(EdicaoPedidoRequest edicaoPedidoRequest) {
+        Long id = edicaoPedidoRequest.getId();
+        StatusPedidoDTO status = edicaoPedidoRequest.getStatus();
+        StatusPedido statusPedido = StatusPedido.valueOf(status.name());
+
+        return PedidoResponseAdapter.build()
+                .convert(pedidoUseCase.atualizarStatusPedido(id, statusPedido));
     }
 }

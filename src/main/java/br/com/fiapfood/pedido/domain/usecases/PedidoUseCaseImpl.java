@@ -58,4 +58,11 @@ public class PedidoUseCaseImpl implements PedidoUseCase {
     public List<Pedido> buscarPedidosAtivos() {
         return this.pedidoRepository.buscarPedidosAtivos();
     }
+
+    @Override
+    public Pedido atualizarStatusPedido(Long idPedido, StatusPedido statusPedido) {
+        Pedido pedido = this.pedidoRepository.buscarPedidoPorId(idPedido);
+        pedido.setStatus(statusPedido);
+        return this.pedidoRepository.atualizarPedido(pedido);
+    }
 }
