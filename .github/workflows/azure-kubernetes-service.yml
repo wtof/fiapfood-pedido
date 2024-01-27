@@ -12,7 +12,7 @@ env:
   CONFIG_MAPS_MANIFEST_PATH: "kubernetes/azure/config-maps"
   SERVICES_MANIFEST_PATH: "kubernetes/azure/services"
   DEPLOYMENT_MANIFEST_PATH: "kubernetes/azure/deployments"
-  IMAGE_TAG: ${{ format('{0:ddMMyyyy}', github.event.pushed_at) }}
+  IMAGE_TAG: $(date +"%d%m%Y")
 
 jobs:
   sonarqube:
