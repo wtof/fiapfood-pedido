@@ -18,8 +18,6 @@ jobs:
   sonarqube:
     runs-on: ubuntu-latest
     steps:
-      - name: Set IMAGE_TAG
-        run: echo "IMAGE_TAG=$(date +'%d%m%Y')" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -46,6 +44,8 @@ jobs:
     needs: sonarqube
     runs-on: ubuntu-latest
     steps:
+      - name: Set IMAGE_TAG
+        run: echo "IMAGE_TAG=$(date +'%d%m%Y')" >> $GITHUB_ENV
       - name: Build the Docker image
         run: |
           docker build . --file Dockerfile --tag wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
