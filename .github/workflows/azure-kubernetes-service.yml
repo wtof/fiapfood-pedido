@@ -12,12 +12,14 @@ env:
   CONFIG_MAPS_MANIFEST_PATH: "kubernetes/azure/config-maps"
   SERVICES_MANIFEST_PATH: "kubernetes/azure/services"
   DEPLOYMENT_MANIFEST_PATH: "kubernetes/azure/deployments"
-  IMAGE_TAG: $(date +"%d%m%Y")
+  IMAGE_TAG:
 
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
     steps:
+      - name: Set IMAGE_TAG
+        run: echo "IMAGE_TAG=$(date +'%d%m%Y')" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -46,8 +48,8 @@ jobs:
     steps:
       - name: Build the Docker image
         run: |
-          docker build ../.. --file Dockerfile --tag wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
-          docker build ../.. --file Dockerfile --tag wtof/fiapfood-pedido:latest
+          docker build . --file Dockerfile --tag wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
+          docker build . --file Dockerfile --tag wtof/fiapfood-pedido:latest
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Docker image to Docker Hub
