@@ -22,9 +22,9 @@ spec:
         - containerPort: 8081
         envFrom:
         - secretRef:
-            name: db-secret
+            name: db-pedido-secret
         - configMapRef:
-            name: api-configmap
+            name: api-pedido-configmap
 
         livenessProbe:
           httpGet:

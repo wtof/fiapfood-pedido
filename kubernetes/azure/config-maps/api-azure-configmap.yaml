@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: api-configmap
+  name: api-pedido-configmap
 data:
   SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb-server-fiapfood.mariadb.database.azure.com:3306/fiapfood
   SPRING_PROFILES_ACTIVE: prod
