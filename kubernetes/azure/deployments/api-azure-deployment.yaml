@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiapfood-api-pedido
+  labels:
+    app: fiapfood-api-pedido
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fiapfood-pedido
+  template:
+    metadata:
+      name: fiapfood-pedido
+      labels:
+        app: fiapfood-pedido
+    spec:
+      containers:
+      - name: fiapfood-pedido-container
+        image: wtof/fiapfood-pedido:latest
+        ports:
+        - containerPort: 8081
+        envFrom:
+        - secretRef:
+            name: db-secret
+        - configMapRef:
+            name: api-configmap
+
+        livenessProbe:
+          httpGet:
+            path: /swagger-ui/index.html
+            port: 8080
+          periodSeconds: 60
+          failureThreshold: 5
+          initialDelaySeconds: 180
+        readinessProbe:
+          httpGet:
+            path: /swagger-ui/index.html
+            port: 8080
+          periodSeconds: 60
+          failureThreshold: 5
+          initialDelaySeconds: 180
+        resources:
+          requests:
+            cpu: 200m
+            memory: 228Mi
+          limits:
+            cpu: 400m
+            memory: 524Mi
