@@ -44,6 +44,8 @@ jobs:
     needs: sonarqube
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Set IMAGE_TAG
         run: echo "IMAGE_TAG=$(date +'%d%m%Y')" >> $GITHUB_ENV
       - name: Check current directory
