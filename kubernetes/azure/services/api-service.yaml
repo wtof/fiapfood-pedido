@@ -4,10 +4,10 @@ metadata:
   name: fiapfood-pedido-service
 spec:
   selector:
-    app: fiapfood-pedido-api
+    app: fiapfood-api-pedido
   ports:
   - protocol: TCP
     port: 8081
     targetPort: 8081
-    nodePort: 30000
+    #nodePort: 30000
   type: LoadBalancer
