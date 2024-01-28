@@ -29,14 +29,14 @@ spec:
         livenessProbe:
           httpGet:
             path: /swagger-ui/index.html
-            port: 8080
+            port: 8081
           periodSeconds: 60
           failureThreshold: 5
           initialDelaySeconds: 180
         readinessProbe:
           httpGet:
             path: /swagger-ui/index.html
-            port: 8080
+            port: 8081
           periodSeconds: 60
           failureThreshold: 5
           initialDelaySeconds: 180
