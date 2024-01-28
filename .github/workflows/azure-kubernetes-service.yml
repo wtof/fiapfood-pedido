@@ -30,6 +30,8 @@ jobs:
         uses: stCarolas/setup-maven@v4
         with:
           maven-version: '3.8.4'
+      - name: Run tests
+        run: mvn test
       - name: Build with Maven
         run: mvn clean install
       - name: SonarQube Scan
@@ -48,12 +50,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Set IMAGE_TAG
         run: echo "IMAGE_TAG=$(date +'%d%m%Y')" >> $GITHUB_ENV
-      - name: Check current directory
-        run: pwd
-      - name: List files in current directory
-        run: ls -la
-      - name: Find Dockerfile
-        run: find . -name Dockerfile
       - name: Build the Docker image
         run: |
           docker build . --file Dockerfile --tag wtof/fiapfood-pedido:${{ env.IMAGE_TAG }}
