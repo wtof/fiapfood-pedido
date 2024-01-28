@@ -40,7 +40,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
           SONAR_HOST_URL: "https://sonarcloud.io"
         with:
-          args: -Dsonar.projectKey=wtof_fiapfood-pedido -Dsonar.organization=wtof -Dsonar.java.binaries=target/classes
+          args: >
+            -Dsonar.projectKey=wtof_fiapfood-pedido
+            -Dsonar.organization=wtof
+            -Dsonar.java.binaries=target/classes
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+            -Dsonar.coverage.exclusions=**/*Test.java,**/*Tests.java
 
   build:
     needs: sonarqube
