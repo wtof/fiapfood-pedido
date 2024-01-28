@@ -8,12 +8,12 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: fiapfood-pedido
+      app: fiapfood-api-pedido
   template:
     metadata:
-      name: fiapfood-pedido
+      name: fiapfood-api-pedido
       labels:
-        app: fiapfood-pedido
+        app: fiapfood-api-pedido
     spec:
       containers:
       - name: fiapfood-pedido-container
