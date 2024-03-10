@@ -18,4 +18,6 @@ public interface PedidoUseCase {
     List<Pedido> buscarPedidosAtivos();
 
     Pedido atualizarStatusPedido(Long idPedido, StatusPedido statusPedido);
+
+    void enviarPedidoProducao(Pedido pedido);
 }

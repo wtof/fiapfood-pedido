@@ -1,14 +1,8 @@
 package br.com.fiapfood.pedido.infra.entities;
 
 import br.com.fiapfood.pedido.domain.enuns.StatusPedido;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -28,13 +22,15 @@ public class PedidoEntity {
     @OneToMany(
             mappedBy = "id.pedido",
             cascade = {CascadeType.ALL},
-            orphanRemoval = false
+            orphanRemoval = false,
+            fetch = FetchType.EAGER
     )
     private List<PedidoItemEntity> pedidoItens;
     @OneToMany(
             mappedBy = "id.pedido",
             cascade = {CascadeType.ALL},
-            orphanRemoval = false
+            orphanRemoval = false,
+            fetch = FetchType.EAGER
     )
     private List<PedidoComboEntity> pedidoCombos;
 

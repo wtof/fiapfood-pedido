@@ -21,9 +21,7 @@ public class PedidoController {
     }
 
     @PostMapping({"/checkout"})
-    @Operation(
-            summary = "Operação responsável efetuar o checkout do pedido"
-    )
+    @Operation(summary = "Operação responsável efetuar o checkout do pedido")
     public ResponseEntity<PedidoResponse> checkoutPedido(@RequestBody PedidoRequest pedido) {
         return ResponseEntity.ok(this.pedidoService.efetuarCheckout(pedido));
     }

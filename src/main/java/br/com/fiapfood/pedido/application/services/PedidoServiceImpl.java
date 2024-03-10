@@ -36,6 +36,14 @@ public class PedidoServiceImpl implements PedidoService {
         return PedidoResponseAdapter.build().convert(this.pedidoUseCase.salvarPedido(pedido));
     }
 
+    @Override
+    public void receberConfirmacaoPagamento(Long idPedido, StatusPedido statusPedido) {
+        Pedido pedido = pedidoUseCase.buscarPedido(idPedido);
+        pedido.setStatus(statusPedido);
+        pedido = pedidoUseCase.atualizarPedido(pedido);
+        pedidoUseCase.enviarPedidoProducao(pedido);
+    }
+
     public PedidoResponse buscarPedido(Long idPedido) {
         return PedidoResponseAdapter.build().convert(this.pedidoUseCase.buscarPedido(idPedido));
     }

@@ -4,6 +4,8 @@ import br.com.fiapfood.pedido.application.payload.dto.StatusPedidoDTO;
 import br.com.fiapfood.pedido.application.payload.request.EdicaoPedidoRequest;
 import br.com.fiapfood.pedido.application.payload.request.PedidoRequest;
 import br.com.fiapfood.pedido.application.payload.response.PedidoResponse;
+import br.com.fiapfood.pedido.domain.enuns.StatusPedido;
+
 import java.util.List;
 
 public interface PedidoService {
@@ -20,4 +22,6 @@ public interface PedidoService {
     List<PedidoResponse> buscarPedidosAtivos();
 
     PedidoResponse efetuarCheckout(PedidoRequest pedidoRequest);
+
+    void receberConfirmacaoPagamento(Long idPedido, StatusPedido statusPedido) ;
 }

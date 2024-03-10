@@ -1,5 +1,6 @@
 package br.com.fiapfood.pedido.domain.usecases;
 
+import br.com.fiapfood.pedido.application.interfaces.MensagemProducerService;
 import br.com.fiapfood.pedido.domain.entities.Item;
 import br.com.fiapfood.pedido.domain.entities.Pedido;
 import br.com.fiapfood.pedido.domain.repository.PedidoRepository;
@@ -17,13 +18,15 @@ class PedidoUseCaseImplTest {
 
     @Mock
     private PedidoRepository pedidoRepository;
+    @Mock
+    private MensagemProducerService mensagemService;
 
     private PedidoUseCaseImpl pedidoUseCase;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        pedidoUseCase = new PedidoUseCaseImpl(pedidoRepository);
+        pedidoUseCase = new PedidoUseCaseImpl(pedidoRepository, mensagemService);
     }
 
     @Test
