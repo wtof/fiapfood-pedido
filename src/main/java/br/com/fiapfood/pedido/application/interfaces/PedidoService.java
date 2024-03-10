@@ -23,5 +23,7 @@ public interface PedidoService {
 
     PedidoResponse efetuarCheckout(PedidoRequest pedidoRequest);
 
-    void receberConfirmacaoPagamento(Long idPedido, StatusPedido statusPedido) ;
+    void receberEventoPagamento(Long idPedido, StatusPedido statusPedido) ;
+
+    void receberEventoProducao(Long idPedido, StatusPedido statusPedido) ;
 }

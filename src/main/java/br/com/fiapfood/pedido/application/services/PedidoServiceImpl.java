@@ -37,11 +37,18 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public void receberConfirmacaoPagamento(Long idPedido, StatusPedido statusPedido) {
+    public void receberEventoPagamento(Long idPedido, StatusPedido statusPedido) {
         Pedido pedido = pedidoUseCase.buscarPedido(idPedido);
         pedido.setStatus(statusPedido);
         pedido = pedidoUseCase.atualizarPedido(pedido);
         pedidoUseCase.enviarPedidoProducao(pedido);
+    }
+
+    @Override
+    public void receberEventoProducao(Long idPedido, StatusPedido statusPedido) {
+        Pedido pedido = pedidoUseCase.buscarPedido(idPedido);
+        pedido.setStatus(statusPedido);
+        pedidoUseCase.atualizarPedido(pedido);
     }
 
     public PedidoResponse buscarPedido(Long idPedido) {
