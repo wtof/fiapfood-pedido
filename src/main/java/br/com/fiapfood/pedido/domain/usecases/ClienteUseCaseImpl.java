@@ -28,6 +28,15 @@ public class ClienteUseCaseImpl implements ClienteUseCase {
         }
     }
 
+    @Override
+    public void deletarClientePorCpf(Long cpf) {
+        try {
+            clienteRepository.deletarClientePorCpf(cpf);
+        } catch (Exception exception) {
+            throw new DominioException("Erro ao tentar deletar cliente", exception);
+        }
+    }
+
     private void validarDadosCliente(Cliente cliente) {
         cliente.validarDadosDeNegocioCliente();
         this.validaSeExisteClienteComCpfInformado(cliente);

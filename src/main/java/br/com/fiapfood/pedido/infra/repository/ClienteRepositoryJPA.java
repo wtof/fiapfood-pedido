@@ -23,7 +23,7 @@ public class ClienteRepositoryJPA implements ClienteRepository {
 
     @Transactional
     public Cliente salvarCliente(Cliente cliente) {
-        ClienteEntity entity = (ClienteEntity)this.entityManager.merge(ClienteEntityAdapter.build().adapt(cliente));
+        ClienteEntity entity = this.entityManager.merge(ClienteEntityAdapter.build().adapt(cliente));
         return ClienteDomainAdapter.build().adapt(entity);
     }
 
@@ -32,7 +32,7 @@ public class ClienteRepositoryJPA implements ClienteRepository {
         query.setParameter("cpf", cpf);
 
         try {
-            return ClienteDomainAdapter.build().adapt((ClienteEntity)query.getSingleResult());
+            return ClienteDomainAdapter.build().adapt(query.getSingleResult());
         } catch (NoResultException var4) {
             return null;
         }
@@ -40,9 +40,19 @@ public class ClienteRepositoryJPA implements ClienteRepository {
 
     public Cliente buscarClientePorId(Long id) {
         try {
-            return ClienteDomainAdapter.build().adapt((ClienteEntity)this.entityManager.find(ClienteEntity.class, id));
+            return ClienteDomainAdapter.build().adapt(this.entityManager.find(ClienteEntity.class, id));
         } catch (NoResultException var3) {
             return null;
+        }
+    }
+
+    @Override
+    public void deletarClientePorCpf(Long cpf) {
+        TypedQuery<ClienteEntity> query = this.entityManager.createQuery("SELECT c FROM ClienteEntity c WHERE c.cpf.numero = :cpf", ClienteEntity.class);
+        query.setParameter("cpf", cpf);
+        ClienteEntity entity = query.getSingleResult();
+        if (entity != null) {
+            this.entityManager.remove(entity);
         }
     }
 }

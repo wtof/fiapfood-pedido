@@ -5,6 +5,8 @@ import br.com.fiapfood.pedido.application.payload.request.EdicaoItemRequest;
 import br.com.fiapfood.pedido.application.payload.request.ItemRequest;
 import br.com.fiapfood.pedido.application.payload.response.ItemResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +42,10 @@ public class ItemController {
             summary = "Operação responsável por filtrar itens por nome de categoria"
     )
     public ResponseEntity<List<ItemResponse>> buscarItemPorNomeCategoria(@RequestParam("nome-categoria") String nomeCategoria) {
-        return ResponseEntity.ok(this.itemService.buscarItemPorNomeCategoria(nomeCategoria));
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Content-Type-Options", "nosniff");
+        List<ItemResponse> items = this.itemService.buscarItemPorNomeCategoria(nomeCategoria);
+        return new ResponseEntity<>(items, headers, HttpStatus.OK);
     }
 
     @GetMapping({"/itens/{id}"})

@@ -8,4 +8,6 @@ public interface ClienteRepository {
     Cliente buscarClientePorCpf(Long cpf);
 
     Cliente buscarClientePorId(Long id);
+
+    void deletarClientePorCpf(Long cpf);
 }

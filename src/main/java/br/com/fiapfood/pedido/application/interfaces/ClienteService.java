@@ -7,4 +7,6 @@ public interface ClienteService {
     ClienteResponse salvarCliente(ClienteRequest clienteRequest);
 
     ClienteResponse buscarClientePorCpf(Long cpf);
+
+    void deletarClientePorCpf(Long cpf);
 }

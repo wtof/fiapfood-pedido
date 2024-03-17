@@ -6,10 +6,7 @@ import br.com.fiapfood.pedido.application.payload.response.ClienteResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ClienteController {
@@ -33,5 +30,14 @@ public class ClienteController {
     )
     public ResponseEntity<ClienteResponse> buscarClientePorCpf(@PathVariable Long cpf) {
         return ResponseEntity.ok(this.clienteService.buscarClientePorCpf(cpf));
+    }
+
+    @DeleteMapping({"/clientes/{cpf}"})
+    @Operation(
+            summary = "Operação responsável por deletar um cliente por cpf"
+    )
+    public ResponseEntity<String> deletarClientePorCpf(@PathVariable Long cpf) {
+        clienteService.deletarClientePorCpf(cpf);
+        return  ResponseEntity.ok("Cliente deletado com sucesso");
     }
 }
